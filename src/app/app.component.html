@@ -1,0 +1,52 @@
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <label for="name">name: </label>
+<input type="text" id="name" name="name" ngModel required />
+<div *ngIf="f.submitted && f.controls['name'].errors">
+  <div *ngIf="f.controls['name'].errors['required']">
+    Name is required.
+  </div>
+</div>
+<br><br>
+  <label for="email">Email: </label>
+  <input type="email" id="email" name="email" ngModel required email />
+  <div *ngIf="f.submitted && f.controls['email'].errors">
+    <div *ngIf="f.controls['email'].errors['required']">Email is required.</div>
+    <div *ngIf="f.controls['email'].errors['email']">Email is not valid.</div>
+  </div>
+  <br>
+
+    <p>Programming Languages:</p>
+    <label *ngFor="let pl of PL">
+      <input type="checkbox" name="programming languages" ngModel [value]="pl">{{ pl }} <br>
+    </label>
+    <div *ngIf="f.submitted && !f.controls['programming languages'].value">
+      <p style="color: red;"> Select at least one programming </p>
+    </div>
+
+    <br>
+    <label for="EL">Experience Level: </label>
+    <br>
+    <input type="radio" id="EL" name="el" value="Beginner">
+    <label for="EL">Beginner</label>
+    <br>
+    <input type="radio" id="EL" name="el" value="Intermediate">
+    <label for="EL">Intermediate</label>
+    <br>
+    <input type="radio" id="EL" name="el" value="Advanced">
+    <label for="EL">Advanced</label>
+  <br><br>
+
+  <label for="d1">Project Description:</label><br>
+  <textarea name="description" id="d1" cols="30" rows="5" minlength="10" ngModel [(ngModel)]="Description"></textarea>
+  <div *ngIf="f.submitted && Description.length < 10"><br>
+    <p style="color: red;">Project description must be at least 10 characters long.</p>
+  </div>
+  <br>
+
+  <button type="submit" [disabled]="f.invalid">Submit</button>
+  <br>
+</form>
+
+<div *ngIf="f.value.el === 'Beginner'">Congratulations {{f.value.Name}} Your programming skills are not bad. Keep up the great work!"</div>
+<div *ngIf="f.value.el === 'Intermediate'">Congratulations{{f.value.Name}} ! Your programming skills are vey good . Keep up the great work!"</div>
+<div *ngIf="f.value.el === 'Advanced'">Congratulations {{f.value.Name}}! Your programming skills are impressive. Keep up the great work!"</div>
